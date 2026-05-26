@@ -1,0 +1,21 @@
+.venv/
+.DS_Store
+__pycache__/
+*.pyc
+*.vcd
+*.fst
+*.xml
+*.vvp
+
+# Sphinx and local figure build products
+docs/_build/
+docs/figures/*.fdb_latexmk
+docs/figures/*.fls
+docs/figures/*.log
+
+# Python and simulator outputs from tests
+test/**/sim_build/
+
+# Generated example data
+examples/*/cases/
+examples/*/batches/

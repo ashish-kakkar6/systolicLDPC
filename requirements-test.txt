@@ -1,0 +1,2 @@
+-r requirements-core.txt
+cocotb>=2.0,<3

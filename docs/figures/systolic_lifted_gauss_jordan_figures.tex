@@ -1,0 +1,27 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{systolic_gauss_jordan_figure_defs.tex}
+
+\begin{document}
+
+% The real RTL pe_diag does not consume op_i; it consumes reduce_sig_i and
+% generates op_o. This simplified sketch keeps the shared visual scheme
+% requested by the author and can be relabeled later if needed.
+\drawpecell{cell}{pe\_col}{op\_i}
+
+\newpage
+
+\drawpecell{diagcell}{pe\_diag}{op\_i}
+
+\newpage
+
+\drawpecellwithreduce{cell}{pe\_col}{op\_i}
+
+\newpage
+
+\drawdelayline
+
+\newpage
+
+\drawtrapeziodmeshmthreefourtwo
+
+\end{document}
