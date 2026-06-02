@@ -172,13 +172,7 @@ def update_latest_symlink(cases_root: Path, case_dir: Path) -> Path:
     if latest.is_symlink() or latest.is_file():
         latest.unlink()
     elif latest.exists():
-        backup = cases_root / "latest.backup"
-        if backup.exists():
-            if backup.is_dir() and not backup.is_symlink():
-                shutil.rmtree(backup)
-            else:
-                backup.unlink()
-        latest.rename(backup)
+        shutil.rmtree(latest)
     latest.symlink_to(case_dir.name, target_is_directory=True)
     return latest
 

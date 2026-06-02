@@ -1,7 +1,9 @@
 .venv/
+.idea/
 .DS_Store
 __pycache__/
 *.pyc
+*.save
 *.vcd
 *.fst
 *.xml

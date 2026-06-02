@@ -5,153 +5,153 @@
 A decoding problem is specified by:
 
 - a parity check matrix $H \in \mathbb{F}_2^{M \times N}$
-- an encoded logical operator matrix $A \in \mathbb{F}_2^{K \times N}$
-- a prior probability vector $p = (p_0, \dots, p_{N-1})$
+- an encoded logical action matrix $A \in \mathbb{F}_2^{K \times N}$
+- a prior error probability vector $p = (p_0, \dots, p_{N-1})$ where error location $j$ is assumed to fail independently with probability $p_j$.
 
-Each error location $j \in \{0, \dots, N-1\}$ is assumed to fail
-independently with probability $p_j$.
-
-Let $e \in \mathbb{F}_2^N$ denote an unknown error on the physical qubits and let
+Let $e \in \mathbb{F}_2^N$ denote an unknown error on the physical qubits, and let
+$\sigma \in \mathbb{F}_2^M$ be the observed syndrome:
 
 ```{math}
-\sigma = H e \in \mathbb{F}_2^M
+\sigma = H e
 ```
 
-be the observed syndrome.
-
-The decoding task is to infer a correction $\hat{e}$ such that
+The decoding task is to infer a correction $\hat{e}$ that reproduces the syndrome
+and preserves the equivalence class of the encoded logical operator:
 
 ```{math}
 H \hat{e} = \sigma \qquad \text{and} \qquad A \hat{e} = A e.
 ```
 
-This means that after the correction $\hat{e}$, the encoded logical qubits are in the code space and the correction preserves the 
-equivalence class the logical qubits belong to. 
-
-In the entirety of examples, we are working with CSS codes and the above notation presumes that we are working with the so called XZ-decoding, the syndrome $\sigma$ is split into $\sigma_X$ and $\sigma_Z$.
-These are decoded independently using derived check matrices $H_X$ and $H_Z$
+In the examples in this repository, we work with CSS codes and use the usual
+split `X/Z` decoding view. The syndrome is decomposed into $\sigma_X$ and
+$\sigma_Z$, decoded independently using derived check matrices $H_X$ and $H_Z$
 to obtain partial corrections $\hat{e}_X$ and $\hat{e}_Z$, which are then
-combined into $\hat{e}$. This reduces the decoding problem to smaller objects by assuming $X$ and $Z$ errors are 
-independent.
+combined into $\hat{e}$. This assumes independent $X$ and $Z$ errors and
+greatly simplifies the decoder interface.
 
-### BP-OSD
-
-BP-OSD is the leading method for decoding qLDPC uses belief propagation to produce soft information and then applies
-ordered-statistics decoding as a post-processing step
-[Roffe, White, Burton, Campbell 2020].
-
-Because a parity-check matrix $H$ need not have full column rank, the syndrome
-equation cannot in general be solved by a direct inverse of $H$. Instead one
-chooses a basis set $S \subseteq \{0, \dots, N-1\}$ such that the columns of
-$H$ indexed by $S$ are linearly independent. The resulting submatrix $H_S$ has
-full column rank and can be used to solve for the basis bits. If
-$T = \{0, \dots, N-1\} \setminus S$ is the remainder set, the OSD-0 candidate
-has the form
+It is useful to associate to each bit a log-likelihood weight
+$\omega_j = \log \frac{1-p_j}{p_j}$.
+The decoding problem of interest is then to find the most-likely error (MLE)
+that satisfies the syndrome:
 
 ```{math}
-H_S \hat{e}_S = \sigma \qquad \text{and} \qquad \hat{e}_T = 0.
+\hat{e} = \arg \min_{e \in \mathbb{F}_2^N,\; He=\sigma} w(e).
 ```
 
-The quality of the correction depends on the choice of $S$. A random basis is
-usually suboptimal. OSD instead uses the BP soft-decision vector to select a
-basis containing bits that are more likely to have flipped.
+### BP (Belief Propagation)
+The Tanner graph associated with $H$ is $G=(V,E)$, where variable nodes index
+columns of $H$, check nodes index rows of $H$, and an edge exists whenever
+$H_{ij}=1$.
 
-The OSD-0 procedure is:
+The implementation shipped in this repository is not a floating-point
+sum-product decoder. Instead, it uses a **row-layered normalized min-sum**
+approximation, matching the hardware under `rtl/minsum_bp/` and the Python
+reference in `examples/minsum_decode/common.py`.
 
-1. Rank bit indices from most likely to least likely using the BP soft
-   decisions.
-2. Reorder the columns of $H$ according to that ranking.
-3. Select the first $\mathrm{rank}(H)$ linearly independent columns as the
-   basis set $S$.
-4. Solve for $\hat{e}_S$ using the restricted system $H_S \hat{e}_S = \sigma$.
-5. Set $\hat{e}_T = 0$ and map the result back to the original bit ordering.
+For each active check row $i$ and adjacent variable $j$, the decoder forms an
+on-the-fly variable-to-check message
 
-OSD post-processing is typically used when BP fails to converge within a fixed
-iteration budget. The resulting correction always satisfies the syndrome
-equation by construction.
+```{math}
+q_{ij} = a_j - r_{ij},
+```
 
-Reference:
+where $a_j$ is the current a-posteriori log-likelihood ratio (LLR) for bit
+$j$, and $r_{ij}$ is the previous check-to-variable message on edge $(i,j)$.
+The outgoing check-to-variable update is then approximated by
+
+```{math}
+r_{ij}^{\mathrm{new}} =
+\alpha
+\left(
+(-1)^{\sigma_i}
+\prod_{j' \in N(i)\setminus \{j\}} \operatorname{sgn}(q_{ij'})
+\right)
+\min_{j' \in N(i)\setminus \{j\}} |q_{ij'}|,
+```
+
+with normalized min-sum factor $\alpha = 0.75$ in the current code base. The
+row is processed in a layered schedule, so the bit belief is updated in place:
+
+```{math}
+a_j \leftarrow a_j - r_{ij} + r_{ij}^{\mathrm{new}}.
+```
+
+After a fixed number of iterations, the final hard decision is taken
+componentwise from the posterior LLR using
+
+```{math}
+\operatorname{HD}(x) = \frac{1}{2}\left(1 - \operatorname{sgn}(x)\right),
+```
+
+with the repository convention $\operatorname{sgn}(0)=+1$, so a zero LLR maps
+to the no-flip decision.
+
+### References
+
+- David J. C. MacKay and Radford M. Neal, *Good Error-Correcting Codes Based on
+  Very Sparse Matrices* (1999),
+  [IEEE Transactions on Information Theory 45(2), 399-431](https://doi.org/10.1109/18.748992).
+
+### OSD-0
+
+To improve convergence, the soft decision vector output by BP can be
+post-processed via ordered statistics decoding (OSD). In this repository, the
+OSD-0 stage consumes the final BP reliability values and uses them to choose a
+linearly independent column set for a reduced solve. This is the same general
+BP+OSD workflow studied for quantum LDPC codes by Roffe, White, Burton, and
+Campbell, and it is also exposed in the `ldpc` software package.
+
+
+Given the soft decision vector output by BP, one chooses a reduced set $S$ such that the columns of
+$H$ indexed by $S$ correspond to bits that are more likely to have flipped and
+are linearly independent. The resulting reduced submatrix $H_{\text{red}}$ has
+full rank and can be used by the systolic solver. After row compaction, the
+reduced error is found by solving the square system
+
+```{math}
+\hat{e}_{\text{red}} = H_{\text{red}}^{-1} \sigma_{\text{red}}.
+```
+
+The full error $\hat{e}$ is then obtained by scattering $\hat{e}_{\text{red}}$
+back into the selected coordinates and inserting $0$ on
+$\{0, \dots, N-1\} \setminus S$.
+
+The OSD-0 algorithm therefore consists of:
+
+- sort the BP soft-decision output vector to obtain an index ordering from least
+  to most reliable,
+- select the first $\mathrm{rank}(H)$ linearly independent columns as the
+  basis set $S$,
+- solve for $\hat{e}_{\text{red}}$ using the restricted system
+  $H_{\text{red}} \hat{e}_{\text{red}} = \sigma_{\text{red}}$,
+- map the result back to the original bit ordering.
+
+### References
 
 - Joschka Roffe, David R. White, Simon Burton, and Earl Campbell,
   *Decoding across the quantum low-density parity-check code landscape* (2020),
-  [Phys. Rev. Research 2, 043423](http://dx.doi.org/10.1103/PhysRevResearch.2.043423).
+  [Physical Review Research 2, 043423](https://doi.org/10.1103/PhysRevResearch.2.043423).
+- Joschka Roffe, *LDPC: Python tools for low density parity check codes* (2022),
+  [PyPI package](https://pypi.org/project/ldpc/) and
+  [source repository](https://github.com/quantumgizmos/ldpc).
 
-```bibtex
-@article{Panteleev_2021,
-  title = {Degenerate Quantum LDPC Codes With Good Finite Length Performance},
-  volume = {5},
-  ISSN = {2521-327X},
-  url = {http://dx.doi.org/10.22331/q-2021-11-22-585},
-  DOI = {10.22331/q-2021-11-22-585},
-  journal = {Quantum},
-  publisher = {Verein zur Forderung des Open Access Publizierens in den Quantenwissenschaften},
-  author = {Panteleev, Pavel and Kalachev, Gleb},
-  year = {2021},
-  month = nov,
-  pages = {585}
-}
-```
 
 
 ### Union-Find
 
-For $X$-error decoding against $Z$ checks, let $H_Z$ denote the relevant check
-matrix and let $T = (V, E)$ be its Tanner graph
-[Delfosse, Londe, Beverland 2021]. This is a bipartite graph with vertex set
-
-```{math}
-V = V_Q \cup V_C,
-```
-
-where $V_Q = \{q_1, \dots, q_N\}$ is the qubit set and
-$V_C = \{c_1, \dots, c_{r_Z}\}$ is the set of $Z$ checks.
-
-It is convenient to represent an $X$ error $e_X \in \mathbb{F}_2^N$ by its
-support $x \subseteq V_Q$. The induced syndrome $\sigma(x) \subseteq V_C$ is
-the set of check nodes incident to an odd number of vertices in $x$.
-
-The union-find decoder grows clusters around non-trivial syndrome nodes and
-then searches for a correction inside each cluster. A vertex set
-$E \subseteq V$ is said to be valid for a syndrome $\sigma$ if there exists
-
-```{math}
-\tilde{x} \subseteq V_Q \cap \mathrm{Int}(E)
-\qquad \text{such that} \qquad
-\sigma(\tilde{x}) = \sigma \cap E.
-```
-
-Here $\mathrm{Int}(E)$ denotes the interior qubit set used by the decoder. A
-correction $\tilde{x}$ satisfying this condition is called a valid correction
-in $E$.
-
-Validity factorizes over connected components. If
-
-```{math}
-E = E_1 \cup \cdots \cup E_m
-```
-
-is the decomposition of $E$ into connected components, then $E$ is valid if
-and only if every $E_i$ is valid. Likewise, a correction in $E$ is valid if
-and only if its restriction to each $E_i$ is valid.
-
-The decoder can therefore be summarized as follows:
-
-1. Initialize the active set with the non-trivial syndrome nodes.
-2. While some connected component is invalid, grow the active set by one graph
-   neighborhood.
-3. For each valid connected component, compute a local correction matching the
-   syndrome restricted to that component.
-4. Return the union of the local corrections.
-
-This separates the algorithm into two subroutines:
-
+The Union-Find decoder grows clusters around non-trivial syndrome nodes and
+then searches for a correction inside each cluster. The search for valid
+clusters over connected components of the decoding graph reduces the
+computational bottleneck of the algorithm into two subroutines:
 - a component-validity test
 - a component-correction solver on valid components
 
-For a general CSS code, both subroutines reduce to solving linear systems over
-$\mathbb{F}_2$.
+which are precisely the solution-existence and solver subroutines efficiently
+handled by the systolic solver.
 
-Reference:
+### References
 
 - Nicolas Delfosse, Vivien Londe, and Michael Beverland, *Toward a Union-Find
-  decoder for quantum LDPC codes* (2021), [arXiv:2103.08049](https://arxiv.org/abs/2103.08049).
+  decoder for quantum LDPC codes* (2022),
+  [IEEE Transactions on Information Theory 68(5), 3187-3199](https://doi.org/10.1109/TIT.2022.3143452),
+  [arXiv:2103.08049](https://arxiv.org/abs/2103.08049).

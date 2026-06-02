@@ -29,7 +29,7 @@ The shipped reference implementation uses:
 
 The current example flow for this RTL is:
 
-- [Layered min-sum decode](../usage/decoder/minsum-decode.md)
+- [Layered min-sum decode](../usage/minsum-decode.md)
 
 ## Why this path is separate
 

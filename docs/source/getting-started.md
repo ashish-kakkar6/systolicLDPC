@@ -73,10 +73,11 @@ make docs
 ## Usage entry points
 
 The smallest supported end-to-end examples of the systolic solver are:
-- [`gauss_jordan_solve`](examples/gauss-jordan-sol-existence.md)
-- [`gauss_jordan_solve`](examples/gauss-jordan-solve.md)
+- [`gauss_jordan_sol_existence`](usage/gauss-jordan-sol-existence.md)
+- [`gauss_jordan_solve`](usage/gauss-jordan-solve.md)
 
 - The smallest supported end-to-end examples of decoding circuits generated using stim are:
 
-- [`minsum_decode`](usage/decoder/minsum-decode.md)
-- [`osd_decode`](usage/decoder/osd-decode.md)
+- [`minsum_decode`](usage/minsum-decode.md)
+- [`osd_decode`](usage/osd-decode.md)
+- [`bp_osd_decode`](usage/bp-osd-decode.md)

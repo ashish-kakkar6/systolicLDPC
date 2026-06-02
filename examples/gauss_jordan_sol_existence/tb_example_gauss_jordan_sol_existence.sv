@@ -140,25 +140,25 @@ module tb_example_gauss_jordan_sol_existence;
     $readmemb(a_bin_file, dut.u_controller.u_input_pipeline.u_a_mem.mem, 0, M - 1);
     $readmemb(b_bin_file, dut.u_controller.u_input_pipeline.u_b_mem.mem, 0, M - 1);
 
-    $display("example_gauss_jordan_driver: A=%s B=%s", a_bin_file, b_bin_file);
-    $display("example_gauss_jordan_driver: rows=%0d N=%0d L=%0d", M, N, L);
+    $display("gauss_jordan_sol_existence: A=%s B=%s", a_bin_file, b_bin_file);
+    $display("gauss_jordan_sol_existence: rows=%0d N=%0d L=%0d", M, N, L);
     $display(
-      "example_gauss_jordan_driver: reduce_enable=%0d reduce_start=%0d reduce_hop_delay=%0d run_cycles=%0d",
+      "gauss_jordan_sol_existence: reduce_enable=%0d reduce_start=%0d reduce_hop_delay=%0d run_cycles=%0d",
       reduce_enable_i, reduce_start_i, REDUCE_HOP_DELAY, run_cycles_i
     );
 
     bottom_fd = $fopen(bottom_bin_file, "w");
     if (bottom_fd == 0)
-      $fatal(1, "example_gauss_jordan_driver: failed to open %s", bottom_bin_file);
+      $fatal(1, "gauss_jordan_sol_existence: failed to open %s", bottom_bin_file);
     result_fd = $fopen(result_file, "w");
     if (result_fd == 0)
-      $fatal(1, "example_gauss_jordan_driver: failed to open %s", result_file);
+      $fatal(1, "gauss_jordan_sol_existence: failed to open %s", result_file);
     first_fd = $fopen(first_cycle_file, "w");
     if (first_fd == 0)
-      $fatal(1, "example_gauss_jordan_driver: failed to open %s", first_cycle_file);
+      $fatal(1, "gauss_jordan_sol_existence: failed to open %s", first_cycle_file);
     counts_fd = $fopen(counts_out_file, "w");
     if (counts_fd == 0)
-      $fatal(1, "example_gauss_jordan_driver: failed to open %s", counts_out_file);
+      $fatal(1, "gauss_jordan_sol_existence: failed to open %s", counts_out_file);
 
     repeat (2) @(posedge clk);
     rst = 1'b0;
@@ -193,7 +193,7 @@ module tb_example_gauss_jordan_sol_existence;
         $fwrite(counts_fd, "timeout_cycles=%0d\n", timeout_cycles);
         $fwrite(counts_fd, "configured_run_cycles=%0d\n", run_cycles_i);
         $fclose(counts_fd);
-        $display("example_gauss_jordan_driver: completed in %0d cycles", elapsed_cycles);
+        $display("gauss_jordan_sol_existence: completed in %0d cycles", elapsed_cycles);
         $finish;
       end
 
@@ -205,7 +205,7 @@ module tb_example_gauss_jordan_sol_existence;
         $fwrite(counts_fd, "timeout_cycles=%0d\n", timeout_cycles);
         $fwrite(counts_fd, "configured_run_cycles=%0d\n", run_cycles_i);
         $fclose(counts_fd);
-        $fatal(1, "example_gauss_jordan_driver: error_o asserted after %0d cycles", elapsed_cycles);
+        $fatal(1, "gauss_jordan_sol_existence: error_o asserted after %0d cycles", elapsed_cycles);
       end
 
       elapsed_cycles++;
@@ -218,7 +218,7 @@ module tb_example_gauss_jordan_sol_existence;
     $fwrite(counts_fd, "timeout_cycles=%0d\n", timeout_cycles);
     $fwrite(counts_fd, "configured_run_cycles=%0d\n", run_cycles_i);
     $fclose(counts_fd);
-    $fatal(1, "example_gauss_jordan_driver: timed out after %0d cycles", timeout_cycles);
+    $fatal(1, "gauss_jordan_sol_existence: timed out after %0d cycles", timeout_cycles);
   end
 
 endmodule

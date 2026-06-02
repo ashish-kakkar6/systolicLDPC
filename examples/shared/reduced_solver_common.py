@@ -19,7 +19,6 @@ from scipy.sparse import issparse
 
 THIS_DIR = Path(__file__).resolve().parent
 REPO_ROOT = THIS_DIR.parents[1]
-DRIVER_EXAMPLE_DIR = REPO_ROOT / "examples" / "example_gauss_jordan_driver"
 
 
 def repo_relpath(path: Path) -> str:
@@ -119,23 +118,11 @@ def update_latest_symlink(cases_root: Path, case_dir: Path) -> Path:
             if child.is_symlink() or child.is_file():
                 child.unlink()
             elif child.exists():
-                backup = cases_root / "latest.backup"
-                if backup.exists():
-                    if backup.is_dir() and not backup.is_symlink():
-                        shutil.rmtree(backup)
-                    else:
-                        backup.unlink()
-                child.rename(backup)
+                shutil.rmtree(child)
     if latest.is_symlink() or latest.is_file():
         latest.unlink()
     elif latest.exists():
-        backup = cases_root / "latest.backup"
-        if backup.exists():
-            if backup.is_dir() and not backup.is_symlink():
-                shutil.rmtree(backup)
-            else:
-                backup.unlink()
-        latest.rename(backup)
+        shutil.rmtree(latest)
     latest.symlink_to(case_dir.name, target_is_directory=True)
     return latest
 

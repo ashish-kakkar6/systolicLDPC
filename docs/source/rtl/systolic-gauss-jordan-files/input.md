@@ -5,6 +5,7 @@ Source:
 
 ```{figure} ../../_static/figures/schedule-feeder.png
 :alt: Scheduled feeder figure
+:width: 85%
 
 Scheduled feeder figure
 ```

@@ -5,13 +5,12 @@
  *
  * Hardware pipeline controller for:
  *   problem_store -> sorter -> ranked basis selection -> row compaction
- *   -> systolic solver -> flipped solution column
+ *   -> systolic solver -> solution column
  *
- * v1 contract:
+ *
  *   - full H, sigma, quantized cutoff, and quantized scores are already resident in RAM
  *   - the sorter keeps only the exact stable top-P ranked candidates
- *   - the sorter and score lookup path use narrow address/data reads instead of
- *     wide packed score and ranked-index buses
+ *   - the sorter and score lookup path use narrow address/data reads
  *   - selected columns are gathered into a square reduced system
  *   - if compaction does not preserve a square system, error_o is asserted
  *   - the final solution column tail is captured, aligned in S_FLIP, then scattered

@@ -97,7 +97,6 @@ clean:
 	$(MAKE) -C test/systolic_gauss_jordan clean
 	$(MAKE) -C test/sort clean
 	$(MAKE) -C docs clean
-	rm -rf examples/example_gauss_jordan_driver/out
 	rm -rf examples/gauss_jordan_solve/cases
 	rm -rf examples/gauss_jordan_solve/__pycache__
 	rm -rf examples/minsum_decode/cases
