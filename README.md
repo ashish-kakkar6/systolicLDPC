@@ -1,6 +1,8 @@
 # systolicLDPC
 
-[![docs](https://github.com/ashish-kakkar6/systolicLDPC/actions/workflows/static.yml/badge.svg)](https://github.com/ashish-kakkar6/systolicLDPC/actions/workflows/static.yml)
+[![docs](https://github.com/ashish-kakkar6/systolicLDPC/actions/workflows/static.yml/badge.svg?branch=main)](https://github.com/ashish-kakkar6/systolicLDPC/actions/workflows/static.yml)
+
+[Documentation](https://ashish-kakkar6.github.io/systolicLDPC/)
 
 Open-source research software for FPGA-oriented experiments in qLDPC decoding,
 centered on a systolic GF(2) Gauss-Jordan solver, a row-layered normalized
