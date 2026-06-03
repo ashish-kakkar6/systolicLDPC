@@ -2,8 +2,11 @@
 
 Standalone OSD hardware example driven by a Stim-backed case.
 
-This folder is the direct OSD path: Python builds a case, SystemVerilog runs the
-ranker + controller + reduced solver, and Python checks the final artifacts.
+## Purpose
+
+This is the direct OSD flow. Python builds a Stim-backed case, SystemVerilog
+runs the ranker, controller, and reduced solver, and Python checks the final
+artifacts.
 
 ## Files
 
@@ -11,27 +14,28 @@ ranker + controller + reduced solver, and Python checks the final artifacts.
 - `dem_mat.py`: DEM-to-matrix helper used by `stim_example.py`.
 - `case.py`: exports the default problem instance.
 - `common.py`: quantization, GF(2), and manifest helpers.
-- `build.py`: Python setup only for one case.
-- `run.py`: SystemVerilog compile and simulation only for one case.
-- `read.py`: Python verification only for one case.
+- `build.py`: Python setup only. Builds one immutable case.
+- `run.py`: SystemVerilog compile and simulation only.
+- `read.py`: Python verification only.
 - `build_batch.py`, `run_batch.py`, `read_batch.py`: many-shot wrapper around the same hardware path.
+- `tb_osd_decode.sv`: top-level testbench for the single-case flow.
 
 ## Run
 
 Single case:
 
 ```sh
-python examples/osd_decode/build.py
-python examples/osd_decode/run.py
-python examples/osd_decode/read.py
+./.venv/bin/python examples/osd_decode/build.py
+./.venv/bin/python examples/osd_decode/run.py
+./.venv/bin/python examples/osd_decode/read.py
 ```
 
 Batch:
 
 ```sh
-python examples/osd_decode/build_batch.py --shots 1000
-python examples/osd_decode/run_batch.py --sim verilator --jobs 8
-python examples/osd_decode/read_batch.py
+./.venv/bin/python examples/osd_decode/build_batch.py --shots 1000
+./.venv/bin/python examples/osd_decode/run_batch.py --sim verilator --jobs 8
+./.venv/bin/python examples/osd_decode/read_batch.py
 ```
 
 ## Outputs
@@ -41,7 +45,9 @@ python examples/osd_decode/read_batch.py
 - `problem/`: `H`, `sigma`, quantized scores, and cutoff memories.
 - `out/`: selected columns, reduced system, solution vectors, and cycle counts.
 
-`read.py` reports only the final hardware/software checks:
+## Final checks
+
+`read.py` reports only:
 
 - selected columns
 - reduced matrix and syndrome

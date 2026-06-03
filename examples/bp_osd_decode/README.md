@@ -2,9 +2,11 @@
 
 Composed hardware decode flow: min-sum BP front-end followed by OSD.
 
-This example is the clean `Python setup -> SV simulation -> Python readback`
-path for the sequential `BP -> OSD` controller. The BP-to-OSD handoff stays in
-hardware; Python does not reinterpret BP outputs between phases.
+## Purpose
+
+This is the composed `BP -> OSD` flow. It keeps the public contract
+`Python setup -> SV simulation -> Python readback`, while the BP-to-OSD
+handoff stays entirely in hardware.
 
 ## Files
 
@@ -19,9 +21,9 @@ hardware; Python does not reinterpret BP outputs between phases.
 ## Run
 
 ```sh
-python examples/bp_osd_decode/build.py
-python examples/bp_osd_decode/run.py
-python examples/bp_osd_decode/read.py
+./.venv/bin/python examples/bp_osd_decode/build.py
+./.venv/bin/python examples/bp_osd_decode/run.py
+./.venv/bin/python examples/bp_osd_decode/read.py
 ```
 
 ## Outputs
@@ -30,7 +32,9 @@ python examples/bp_osd_decode/read.py
 - `problem/`: BP graph files, OSD preload files, and generated score inputs.
 - `out/`: BP outputs, OSD outputs, and cycle counts.
 
-`read.py` reports the final BP and OSD checks:
+## Final checks
+
+`read.py` reports only:
 
 - BP posterior and hard-decision agreement
 - BP residual weight

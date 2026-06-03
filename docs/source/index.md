@@ -152,8 +152,9 @@ message-passing module and a reduced-system OSD module.
 `systolicLDPC` is released under the GNU GPLv3. See
 [`LICENSE`](../../LICENSE).
 
-`systolicLDPC` is under development, if it was
-useful to you, please cite:
+This project is actively being developed.
+
+If `systolicLDPC` was useful to you, please cite:
 
 ```bibtex
 @misc{systolicLDPC,
