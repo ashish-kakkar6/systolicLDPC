@@ -4,9 +4,10 @@
 
 [Documentation](https://ashish-kakkar6.github.io/systolicLDPC/)
 
-Open-source research software for FPGA-oriented experiments in qLDPC decoding,
-centered on a systolic GF(2) Gauss-Jordan solver, a row-layered normalized
-min-sum decoder, and lightweight cocotb-based verification.
+Open-source research software for FPGA-oriented experiments in quantum error
+correction decoders for qLDPC codes, centered on a systolic GF(2)
+Gauss-Jordan solver, a row-layered normalized min-sum decoder, and
+lightweight cocotb-based verification.
 
 ## Layout
 
