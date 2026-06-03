@@ -1,5 +1,7 @@
 # systolicLDPC
 
+[![Documentation](https://img.shields.io/badge/docs-github_pages-blue)](https://ashish-kakkar6.github.io/systolicLDPC/)
+
 Open-source research software for FPGA-oriented experiments in qLDPC decoding,
 centered on a systolic GF(2) Gauss-Jordan solver, a row-layered normalized
 min-sum decoder, and lightweight cocotb-based verification.
@@ -121,6 +123,10 @@ The Sphinx site lives under `docs/source/` and builds into:
 ```text
 docs/_build/html/
 ```
+
+Published docs (GitHub Pages):
+
+- <https://ashish-kakkar6.github.io/systolicLDPC/>
 
 Additional metadata:
 
