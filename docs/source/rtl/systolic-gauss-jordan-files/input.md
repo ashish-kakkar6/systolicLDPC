@@ -12,7 +12,7 @@ Scheduled feeder figure
 
 ## Function
 
-`\input` is the production feeder. It owns the A/B memories, reads one row from
+`\input` is the current feeder. It owns the A/B memories, reads one row from
 each memory per issue cycle, packs them as `{B_row, A_row}`, applies the
 stagger delay bank, and drives the top edge of `trapeziod_mesh`.
 

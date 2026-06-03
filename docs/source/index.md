@@ -82,7 +82,7 @@ Two central solver-facing subroutines are supported:
    `3 n + m + l - 1` clock cycles.
 
 The solver RTL is documented in [RTL: Systolic Gauss-Jordan](rtl/systolic-gauss-jordan.md).
-The public runnable flows are:
+The available runnable flows are:
 
 - [Usage: Gauss-Jordan solve](usage/gauss-jordan-solve.md)
 - [Usage: Gauss-Jordan solution existence](usage/gauss-jordan-sol-existence.md)
@@ -123,7 +123,7 @@ message-passing module and a reduced-system OSD module.
    - solve the reduced OSD system on the systolic solver.
 
    The BP front-end RTL is documented in [RTL: Min-sum BP](rtl/minsum-bp.md).
-   The public runnable flows are:
+   The available runnable flows are:
 
    - [Usage: Layered min-sum decode](usage/minsum-decode.md)
    - [Usage: BP-OSD decode](usage/bp-osd-decode.md)

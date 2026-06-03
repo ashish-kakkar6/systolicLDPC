@@ -58,7 +58,7 @@ For documentation only:
 make docs-ready
 ```
 
-Run the public regression suite with:
+Run the regression suite with:
 
 ```sh
 make test

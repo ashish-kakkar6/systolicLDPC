@@ -10,7 +10,7 @@ systolic-gauss-jordan-tests/test-trapeziod-mesh
 systolic-gauss-jordan-tests/test-trapeziod-full-trace-reduce
 ```
 
-This section is the executable test surface for the production
+This section is the executable test surface for the current
 `systolic_gauss_jordan` RTL.
 
 ## Included tests

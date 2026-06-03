@@ -48,6 +48,11 @@ sum-product decoder. Instead, it uses a **row-layered normalized min-sum**
 approximation, matching the hardware under `rtl/minsum_bp/` and the Python
 reference in `examples/minsum_decode/common.py`.
 
+In this repository, the standalone hardware-facing BP path is exercised by
+[Usage: Layered min-sum decode](../usage/minsum-decode.md), and the same BP
+front-end is composed with OSD in
+[Usage: BP-OSD decode](../usage/bp-osd-decode.md).
+
 For each active check row $i$ and adjacent variable $j$, the decoder forms an
 on-the-fly variable-to-check message
 
@@ -101,6 +106,9 @@ linearly independent column set for a reduced solve. This is the same general
 BP+OSD workflow studied for quantum LDPC codes by Roffe, White, Burton, and
 Campbell, and it is also exposed in the `ldpc` software package.
 
+The corresponding runnable hardware flows in this repository are
+[Usage: OSD decode](../usage/osd-decode.md) and
+[Usage: BP-OSD decode](../usage/bp-osd-decode.md).
 
 Given the soft decision vector output by BP, one chooses a reduced set $S$ such that the columns of
 $H$ indexed by $S$ correspond to bits that are more likely to have flipped and
@@ -127,12 +135,13 @@ The OSD-0 algorithm therefore consists of:
 - map the result back to the original bit ordering.
 
 ### References
-
+- P. Panteleev and G. Kalachev,
+  *Degenerate quantum LDPC codes with good finite length performance*, 
+  [Quantum, vol. 5, Jul. 2021, Art. no. 585](https://doi.org/10.22331/q-2021-11-22-585)
 - Joschka Roffe, David R. White, Simon Burton, and Earl Campbell,
   *Decoding across the quantum low-density parity-check code landscape* (2020),
   [Physical Review Research 2, 043423](https://doi.org/10.1103/PhysRevResearch.2.043423).
 - Joschka Roffe, *LDPC: Python tools for low density parity check codes* (2022),
-  [PyPI package](https://pypi.org/project/ldpc/) and
   [source repository](https://github.com/quantumgizmos/ldpc).
 
 
@@ -148,6 +157,10 @@ computational bottleneck of the algorithm into two subroutines:
 
 which are precisely the solution-existence and solver subroutines efficiently
 handled by the systolic solver.
+
+Those two hardware subroutines are exposed publicly through
+[Usage: Gauss-Jordan solution existence](../usage/gauss-jordan-sol-existence.md)
+and [Usage: Gauss-Jordan solve](../usage/gauss-jordan-solve.md).
 
 ### References
 

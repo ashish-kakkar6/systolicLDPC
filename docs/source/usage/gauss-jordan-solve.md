@@ -3,7 +3,7 @@
 Example directory:
 - `examples/gauss_jordan_solve`
 
-This flow solves `A X = B` over $\mathrm{GF}(2)$ using the production systolic
+This flow solves `A X = B` over $\mathrm{GF}(2)$ using the reference systolic
 Gauss-Jordan kernel.
 
 ## Commands

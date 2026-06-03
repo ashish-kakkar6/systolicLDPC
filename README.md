@@ -1,8 +1,8 @@
 # systolicLDPC
 
-Minimal research-focused FPGA repo for LDPC-oriented experiments, centered on a
-small SystemVerilog systolic Gauss-Jordan path, a scalable row-layered
-normalized min-sum decoder prototype, and a lightweight cocotb flow.
+Open-source research software for FPGA-oriented experiments in qLDPC decoding,
+centered on a systolic GF(2) Gauss-Jordan solver, a row-layered normalized
+min-sum decoder, and lightweight cocotb-based verification.
 
 ## Layout
 
@@ -28,25 +28,25 @@ systolicLDPC/
     └── systolic_gauss_jordan/
 ```
 
-## Production RTL
+## Available RTL
 
 - `trapeziod_mesh.sv` is the structural lifted mesh.
 - `pe_diag.sv` and `pe_col.sv` implement the mesh cells.
 - `input.sv` owns RAM-backed row loading and the staggered top-edge feed.
 - `controller.sv` owns the run window and reduce pulse.
 - `mem.sv`, `delay_line.sv`, and `gj_pkg.sv` provide the shared primitives.
-- `rtl/minsum_bp/` contains the scalable decoder-side front-end built around
+- `rtl/minsum_bp/` contains the current decoder-side front-end built around
   row-layered normalized min-sum.
 
 ## Example Flows
 
-- `gauss_jordan_solve/`: start from NumPy `A` and `B`
+- `gauss_jordan_solve/`: start from NumPy `A` and `B`, and solve `A X = B`
 - `gauss_jordan_sol_existence/`: start from NumPy `A` and `B` and check whether `A x = B` has a solution
+- `osd_decode/`: start from a Stim-backed decoding problem and run OSD (Ordered Statistics Decoding) using stim priors
 - `minsum_decode/`: start from a Stim-backed decoding problem and run the
   scalable min-sum decoder front-end
 - `bp_osd_decode/`: run min-sum BP first, then pass BP-derived reliabilities
   directly into the OSD hardware flow
-- `osd_decode/`: start from a Stim-backed decoding problem and run the modular OSD control flow
 
 ## Installation
 
@@ -122,6 +122,6 @@ The Sphinx site lives under `docs/source/` and builds into:
 docs/_build/html/
 ```
 
-Additional public-facing metadata:
+Additional metadata:
 
 - contributor guide: [`CONTRIBUTING.md`](CONTRIBUTING.md)

@@ -4,7 +4,7 @@ Example directory:
 - `examples/bp_osd_decode`
 
 This is the composed hardware decode flow: min-sum BP front-end followed by
-OSD. The BP-to-OSD handoff stays in hardware, so the public workflow remains
+OSD. The BP-to-OSD handoff stays in hardware, so the repository workflow remains
 `Python build -> SV run -> Python read`.
 
 ## Commands

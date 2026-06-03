@@ -12,7 +12,7 @@ BP-OSD decode <bp-osd-decode>
 ```
 
 This section documents the runnable example flows in `examples/`. Each page
-maps directly to one example directory and follows the same public contract:
+maps directly to one example directory and follows the same common contract:
 
 - `build.py`
   Python setup only. Generates one immutable case directory under
@@ -33,7 +33,7 @@ This split keeps the workflow consistent across solver and decoder examples:
 ## Available flows
 
 - [Gauss-Jordan solve](gauss-jordan-solve.md)
-  Direct `A X = B` solve over $\mathrm{GF}(2)$ against the production systolic solver.
+  Direct `A X = B` solve over $\mathrm{GF}(2)$ against the reference systolic solver.
 - [Gauss-Jordan solution existence](gauss-jordan-sol-existence.md)
   Uses the same solver path to determine whether `A x = B` is consistent.
 - [Layered min-sum decode](minsum-decode.md)

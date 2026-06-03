@@ -7,13 +7,13 @@
 systolic-gauss-jordan
 ```
 
-This section documents the public verification surface for the production RTL.
+This section documents the available verification surface for the current RTL.
 
 ## Pages in this section
 
 - [Systolic Gauss-Jordan](systolic-gauss-jordan.md)
 
-- `test/systolic_gauss_jordan/` is the public cocotb suite for `rtl/systolic_gauss_jordan/`
+- `test/systolic_gauss_jordan/` is the cocotb suite for `rtl/systolic_gauss_jordan/`
 
 ## What these pages should cover
 

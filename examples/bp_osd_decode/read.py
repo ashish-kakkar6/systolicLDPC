@@ -43,7 +43,7 @@ def _resolve_output_path(case_dir: Path, manifest: dict, key: str, default_rel: 
 
 def _require_ran(case_dir: Path, manifest: dict) -> None:
     if not manifest.get("stages", {}).get("ran", False):
-        run_cmd = f"python examples/bp_osd_decode/run.py --case-dir {case_dir}"
+        run_cmd = f"./.venv/bin/python examples/bp_osd_decode/run.py --case-dir {case_dir}"
         raise ValueError(f"{case_dir} has not been run yet. Run:\n{run_cmd}")
 
 
