@@ -9,9 +9,9 @@ This flow uses the systolic Gauss-Jordan path to determine whether
 ## Commands
 
 ```sh
-python3 examples/gauss_jordan_sol_existence/build.py
-python3 examples/gauss_jordan_sol_existence/run.py
-python3 examples/gauss_jordan_sol_existence/read.py
+./.venv/bin/python examples/gauss_jordan_sol_existence/build.py
+./.venv/bin/python examples/gauss_jordan_sol_existence/run.py
+./.venv/bin/python examples/gauss_jordan_sol_existence/read.py
 ```
 
 ## Inputs
@@ -43,4 +43,3 @@ Generated under `cases/<case_id>/` with `cases/latest` pointing at the active ca
 `read.py` checks:
 
 - `has_solution_hw[col] == has_solution_sw[col]`
-

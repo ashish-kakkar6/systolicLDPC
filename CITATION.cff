@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use systolicLDPC in your research, please cite it using the metadata below."
+title: "systolicLDPC"
+abstract: "FPGA-oriented research software for systolic Gauss-Jordan solving, layered min-sum decoding, and BP-OSD decoder experiments for qLDPC codes."
+type: software
+authors:
+  - family-names: "Kakkar"
+    given-names: "Ashish"
+license: "GPL-3.0-only"
+repository-code: "https://github.com/ashish-kakkar6/systolicLDPC"
+url: "https://github.com/ashish-kakkar6/systolicLDPC"

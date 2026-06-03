@@ -10,9 +10,9 @@ OSD. The BP-to-OSD handoff stays in hardware, so the public workflow remains
 ## Commands
 
 ```sh
-python3 examples/bp_osd_decode/build.py
-python3 examples/bp_osd_decode/run.py
-python3 examples/bp_osd_decode/read.py
+./.venv/bin/python examples/bp_osd_decode/build.py
+./.venv/bin/python examples/bp_osd_decode/run.py
+./.venv/bin/python examples/bp_osd_decode/read.py
 ```
 
 ## Inputs
@@ -47,4 +47,3 @@ Generated under `cases/<case_id>/` with `cases/latest` pointing at the active ca
 - OSD selected-column and reduced-system agreement
 - `H @ F == sigma`
 - `logicals @ F == actual_observables`
-

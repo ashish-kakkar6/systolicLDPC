@@ -121,3 +121,8 @@ The Sphinx site lives under `docs/source/` and builds into:
 ```text
 docs/_build/html/
 ```
+
+Additional public-facing metadata:
+
+- citation metadata: [`CITATION.cff`](CITATION.cff)
+- contributor guide: [`CONTRIBUTING.md`](CONTRIBUTING.md)

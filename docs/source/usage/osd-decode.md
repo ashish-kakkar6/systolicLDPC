@@ -10,17 +10,17 @@ compaction, reduced solve, and reconstruction.
 ## Commands
 
 ```sh
-python3 examples/osd_decode/build.py
-python3 examples/osd_decode/run.py
-python3 examples/osd_decode/read.py
+./.venv/bin/python examples/osd_decode/build.py
+./.venv/bin/python examples/osd_decode/run.py
+./.venv/bin/python examples/osd_decode/read.py
 ```
 
 For many-shot statistics:
 
 ```sh
-python3 examples/osd_decode/build_batch.py --shots 1000
-python3 examples/osd_decode/run_batch.py --sim verilator --jobs 8
-python3 examples/osd_decode/read_batch.py
+./.venv/bin/python examples/osd_decode/build_batch.py --shots 1000
+./.venv/bin/python examples/osd_decode/run_batch.py --sim verilator --jobs 8
+./.venv/bin/python examples/osd_decode/read_batch.py
 ```
 
 ## Inputs
@@ -58,4 +58,3 @@ final decoded vector, including:
 
 - `H @ F == sigma`
 - `logicals @ F == actual_observables`
-

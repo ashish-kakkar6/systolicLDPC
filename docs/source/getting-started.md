@@ -76,7 +76,7 @@ The smallest supported end-to-end examples of the systolic solver are:
 - [`gauss_jordan_sol_existence`](usage/gauss-jordan-sol-existence.md)
 - [`gauss_jordan_solve`](usage/gauss-jordan-solve.md)
 
-- The smallest supported end-to-end examples of decoding circuits generated using stim are:
+The supported Stim-backed decoder examples are:
 
 - [`minsum_decode`](usage/minsum-decode.md)
 - [`osd_decode`](usage/osd-decode.md)

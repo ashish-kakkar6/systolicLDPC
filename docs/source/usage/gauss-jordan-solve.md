@@ -9,9 +9,9 @@ Gauss-Jordan kernel.
 ## Commands
 
 ```sh
-python3 examples/gauss_jordan_solve/build.py
-python3 examples/gauss_jordan_solve/run.py
-python3 examples/gauss_jordan_solve/read.py
+./.venv/bin/python examples/gauss_jordan_solve/build.py
+./.venv/bin/python examples/gauss_jordan_solve/run.py
+./.venv/bin/python examples/gauss_jordan_solve/read.py
 ```
 
 ## Inputs
@@ -39,4 +39,3 @@ Generated under `cases/<case_id>/` with `cases/latest` pointing at the active ca
 
 - `X_hardware == X_software`
 - `A @ X_hardware == B`
-
